@@ -13,4 +13,8 @@ export class TodoListRepository extends DefaultCrudRepository<
   ) {
     super(TodoList, dataSource);
   }
+
+  public findByTitle(title: string) {
+    return this.findOne({where: {title}});
+  }
 }
