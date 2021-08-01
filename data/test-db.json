@@ -1,0 +1,10 @@
+{
+  "ids": {
+    "Todo": 1,
+    "TodoList": 1
+  },
+  "models": {
+    "Todo": {},
+    "TodoList": {}
+  }
+}
