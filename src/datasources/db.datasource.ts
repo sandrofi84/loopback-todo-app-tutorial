@@ -8,7 +8,7 @@ const config = {
   file: './data/db.json'
 };
 
-export const testConfig = {
+const testConfig = {
   name: 'db',
   connector: 'memory',
   localStorage: '',
@@ -23,11 +23,11 @@ export const testConfig = {
 export class DbDataSource extends juggler.DataSource
   implements LifeCycleObserver {
   static dataSourceName = 'db';
-  static readonly defaultConfig = config;
+  static readonly defaultConfig = process.env.npm_lifecycle_event === 'test' ? testConfig : config;
 
   constructor(
     @inject('datasources.config.db', {optional: true})
-    dsConfig: object = config,
+    dsConfig: object = process.env.npm_lifecycle_event === 'test' ? testConfig : config,
   ) {
     super(dsConfig);
   }

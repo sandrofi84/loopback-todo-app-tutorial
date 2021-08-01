@@ -5,12 +5,6 @@ export async function givenEmptyDB(datasource: juggler.DataSource) {
   let todoRepository: TodoRepository;
   let todoListRepository: TodoListRepository;
 
-  const todoGetter = async () => todoRepository;
-  const todoListGetter = async () => todoListRepository;
-
-  todoRepository = new TodoRepository(datasource, todoListGetter);
-  todoListRepository = new TodoListRepository(datasource, todoGetter);
-
-  await todoRepository.deleteAll();
-  await todoListRepository.deleteAll();
+  await new TodoRepository(datasource, async () => todoListRepository).deleteAll();
+  await new TodoListRepository(datasource, async () => todoRepository).deleteAll();
 };
