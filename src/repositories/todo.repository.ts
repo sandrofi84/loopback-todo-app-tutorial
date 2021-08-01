@@ -1,7 +1,7 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, BelongsToAccessor} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, DefaultCrudRepository, repository} from '@loopback/repository';
 import {DbDataSource} from '../datasources';
-import {Todo, TodoRelations, TodoList} from '../models';
+import {Todo, TodoList, TodoRelations} from '../models';
 import {TodoListRepository} from './todo-list.repository';
 
 export class TodoRepository extends DefaultCrudRepository<
@@ -18,5 +18,9 @@ export class TodoRepository extends DefaultCrudRepository<
     super(Todo, dataSource);
     this.todoList = this.createBelongsToAccessorFor('todoList', todoListRepositoryGetter,);
     this.registerInclusionResolver('todoList', this.todoList.inclusionResolver);
+  }
+
+  public async findByTitle(title: string): Promise<((Todo & TodoRelations) | null)[]> {
+    return [await this.findOne({where: {title}})];
   }
 }

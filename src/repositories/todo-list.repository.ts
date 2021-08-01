@@ -1,7 +1,7 @@
-import {inject, Getter} from '@loopback/core';
-import {DefaultCrudRepository, repository, HasManyRepositoryFactory} from '@loopback/repository';
+import {Getter, inject} from '@loopback/core';
+import {DefaultCrudRepository, HasManyRepositoryFactory, repository} from '@loopback/repository';
 import {DbDataSource} from '../datasources';
-import {TodoList, TodoListRelations, Todo} from '../models';
+import {Todo, TodoList, TodoListRelations} from '../models';
 import {TodoRepository} from './todo.repository';
 
 export class TodoListRepository extends DefaultCrudRepository<
@@ -18,9 +18,5 @@ export class TodoListRepository extends DefaultCrudRepository<
     super(TodoList, dataSource);
     this.todos = this.createHasManyRepositoryFactoryFor('todos', todoRepositoryGetter,);
     this.registerInclusionResolver('todos', this.todos.inclusionResolver);
-  }
-
-  public findByTitle(title: string) {
-    return this.findOne({where: {title}});
   }
 }
