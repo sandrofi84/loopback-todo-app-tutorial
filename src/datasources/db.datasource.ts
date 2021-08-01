@@ -8,6 +8,19 @@ const config = {
   file: './data/db.json'
 };
 
+const testConfig = {
+  name: 'db',
+  connector: 'mongodb',
+  url: '',
+  host: '127.0.0.1',
+  port: 27017,
+  user: '',
+  password: '',
+  database: 'todo-app',
+  useNewUrlParser: true
+
+};
+
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.
@@ -16,11 +29,11 @@ const config = {
 export class DbDataSource extends juggler.DataSource
   implements LifeCycleObserver {
   static dataSourceName = 'db';
-  static readonly defaultConfig = config;
+  static readonly defaultConfig = process.env.npm_lifecycle_event === 'test' ? testConfig : config;
 
   constructor(
     @inject('datasources.config.db', {optional: true})
-    dsConfig: object = config,
+    dsConfig: object = process.env.npm_lifecycle_event === 'test' ? testConfig : config,
   ) {
     super(dsConfig);
   }
