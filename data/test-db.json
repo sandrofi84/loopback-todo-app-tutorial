@@ -1,7 +1,7 @@
 {
   "ids": {
-    "Todo": 1,
-    "TodoList": 1
+    "Todo": 8,
+    "TodoList": 2
   },
   "models": {
     "Todo": {},
