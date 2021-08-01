@@ -1,22 +1,20 @@
 import {juggler} from '@loopback/repository';
-import {Todo} from '../../models';
+import {TodoList} from '../../models';
 import {TodoListRepository, TodoRepository} from '../../repositories';
 
-export function givenTodoData(data?: Partial<Todo>): Partial<Todo> {
+export function givenTodoListData(data?: Partial<TodoList>): Partial<TodoList> {
   return Object.assign(
     {
-      id: 60,
-      title: "dummy",
-      desc: "this is just a test todo",
-      isComplete: false,
-      todoListId: 99
+      id: 99,
+      title: "dummyList",
+      color: "blue"
     },
     data
   );
 }
 
 
-export async function givenTodo(datasource: juggler.DataSource, data?: Partial<Todo>): Promise<Partial<Todo>> {
+export async function givenTodoList(datasource: juggler.DataSource, data?: Partial<TodoList>): Promise<Partial<TodoList>> {
   let todoRepository: TodoRepository;
   let todoListRepository: TodoListRepository;
 
@@ -26,7 +24,7 @@ export async function givenTodo(datasource: juggler.DataSource, data?: Partial<T
   todoRepository = new TodoRepository(datasource, todoListGetter);
   todoListRepository = new TodoListRepository(datasource, todoGetter);
 
-  const newTodo = await todoRepository.create(givenTodoData(data));
+  const newTodoList = await todoListRepository.create(givenTodoListData(data));
 
-  return newTodo;
+  return newTodoList;
 }

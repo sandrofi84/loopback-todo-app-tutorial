@@ -1,7 +1,7 @@
 import {juggler} from '@loopback/repository';
 import {TodoListRepository, TodoRepository} from '../../repositories';
 
-export default async function givenEmptyDB(datasource: juggler.DataSource) {
+export async function givenEmptyDB(datasource: juggler.DataSource) {
   let todoRepository: TodoRepository;
   let todoListRepository: TodoListRepository;
 
