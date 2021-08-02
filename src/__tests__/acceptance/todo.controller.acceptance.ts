@@ -2,7 +2,7 @@ import {Client, expect} from '@loopback/testlab';
 import {TodoListApplication} from '../..';
 import {DbDataSource} from '../../datasources';
 import {givenEmptyDB} from '../helpers/database.helpers';
-import {givenTodoData} from '../helpers/todo.helpers';
+import {givenTodo, givenTodoData} from '../helpers/todo.helpers';
 import {setupApplication} from './test-helper';
 
 
@@ -38,6 +38,24 @@ describe('TodoController (acceptance)', () => {
       console.log(response.body);
 
       expect(response.body).Array();
+    });
+  });
+
+  describe('GET /todos?title={title}', () => {
+    it('returns a todo with the specified title', async () => {
+      // given a todo with title "get bananas" in the DB
+      await givenTodo(datasource, {title: "get bananas"});
+
+      // when making a query for todo with title "get bananas"
+      const response = await client
+        .get('/todos?title="get bananas"')
+        .expect(200);
+
+      console.log(response.body);
+
+      // then return the todo with title "get bananas"
+      expect(response.body).to.have.property("title");
+      expect(response.body.title).eql("get bananas");
     });
   });
 
