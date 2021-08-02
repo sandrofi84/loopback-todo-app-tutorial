@@ -1,10 +1,12 @@
 {
   "ids": {
-    "Todo": 8,
+    "Todo": 20,
     "TodoList": 2
   },
   "models": {
-    "Todo": {},
+    "Todo": {
+      "19": "{\"title\":\"get bananas\",\"desc\":\"this is just a test todo\",\"isComplete\":false,\"todoListId\":1,\"id\":19}"
+    },
     "TodoList": {}
   }
 }

@@ -11,7 +11,7 @@ import {
   getModelSchemaRef, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
-import {Todo, TodoList} from '../models';
+import {Todo, TodoList, TodoRelations} from '../models';
 import {TodoRepository} from '../repositories';
 
 export class TodoController {
@@ -66,9 +66,29 @@ export class TodoController {
   })
   async find(
     @param.filter(Todo) filter?: Filter<Todo>,
-  ): Promise<Todo[]> {
+    @param.query.string('title') title?: string,
+  ): Promise<Todo[] | Promise<((Todo & TodoRelations) | null)[]>> {
+    if (title) {
+      console.log(`title is ${title}`);
+      return this.todoRepository.findByTitle(title);
+    }
     return this.todoRepository.find(filter);
   }
+
+  // @get('/todos?title={title}')
+  // @response(200, {
+  //   description: 'Todo model instance',
+  //   content: {
+  //     'application/json': {
+  //       schema: getModelSchemaRef(Todo, {includeRelations: true}),
+  //     },
+  //   },
+  // })
+  // async findByTitle(
+  //   @param.query.string('title') title: string,
+  // ): Promise<(Todo & TodoRelations) | null> {
+  //   return this.todoRepository.findByTitle(title);
+  // }
 
   @patch('/todos')
   @response(200, {
