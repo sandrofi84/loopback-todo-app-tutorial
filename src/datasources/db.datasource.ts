@@ -10,6 +10,7 @@ const config = {
 
 const testConfig = {
   name: 'db',
+<<<<<<< HEAD
   connector: 'mongodb',
   url: '',
   host: '127.0.0.1',
@@ -19,6 +20,11 @@ const testConfig = {
   database: 'todo-app',
   useNewUrlParser: true
 
+=======
+  connector: 'memory',
+  localStorage: '',
+  file: './data/test-db.json'
+>>>>>>> aca9f908b8d42394c6ca4f5a40d5335cc6a49bde
 };
 
 // Observe application's life cycle to disconnect the datasource when

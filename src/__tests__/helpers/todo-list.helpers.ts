@@ -16,8 +16,12 @@ export function givenTodoListData(data?: Partial<TodoList>): Partial<TodoList> {
 export async function givenTodoList(datasource: juggler.DataSource, data?: Partial<TodoList>): Promise<Partial<TodoList>> {
   let todoRepository: TodoRepository;
 
+<<<<<<< HEAD
   const todoListRepository = new TodoListRepository(datasource, async () => todoRepository);
   const newTodoList = await todoListRepository.create(givenTodoListData(data));
+=======
+  const newTodoList = await new TodoListRepository(datasource, async () => todoRepository).create(givenTodoListData(data));
+>>>>>>> aca9f908b8d42394c6ca4f5a40d5335cc6a49bde
 
   return newTodoList;
 }
