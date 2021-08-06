@@ -6,7 +6,7 @@ export function givenTodoListData(data?: Partial<TodoList>): Partial<TodoList> {
   return Object.assign(
     {
       title: "dummyList",
-      color: "blue"
+      color: "red"
     },
     data
   );

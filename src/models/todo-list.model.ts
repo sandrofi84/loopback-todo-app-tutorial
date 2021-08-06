@@ -1,4 +1,5 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Color} from '../enums/todo-list-enums';
 import {Todo, TodoWithRelations} from './todo.model';
 
 @model()
@@ -19,7 +20,7 @@ export class TodoList extends Entity {
   @property({
     type: 'string',
   })
-  color?: string;
+  color: Color;
 
   @hasMany(() => Todo)
   todos: Todo[];

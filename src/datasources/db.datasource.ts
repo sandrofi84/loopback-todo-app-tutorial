@@ -3,9 +3,14 @@ import {juggler} from '@loopback/repository';
 
 const config = {
   name: 'db',
-  connector: 'memory',
-  localStorage: '',
-  file: './data/db.json'
+  connector: 'mongodb',
+  url: '',
+  host: '127.0.0.1',
+  port: 27017,
+  user: '',
+  password: '',
+  database: 'todo-app-prod',
+  useNewUrlParser: true
 };
 
 const testConfig = {
