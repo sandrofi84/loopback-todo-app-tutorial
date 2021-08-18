@@ -102,7 +102,7 @@ export class TodoListController {
     },
   })
   async findById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @param.filter(TodoList, {exclude: 'where'}) filter?: FilterExcludingWhere<TodoList>
   ): Promise<TodoList> {
     return this.todoListRepository.findById(id, filter);
@@ -113,7 +113,7 @@ export class TodoListController {
     description: 'TodoList PATCH success',
   })
   async updateById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody({
       content: {
         'application/json': {
@@ -131,7 +131,7 @@ export class TodoListController {
     description: 'TodoList PUT success',
   })
   async replaceById(
-    @param.path.number('id') id: number,
+    @param.path.string('id') id: string,
     @requestBody() todoList: TodoList,
   ): Promise<void> {
     await this.todoListRepository.replaceById(id, todoList);
@@ -141,7 +141,7 @@ export class TodoListController {
   @response(204, {
     description: 'TodoList DELETE success',
   })
-  async deleteById(@param.path.number('id') id: number): Promise<void> {
+  async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.todoListRepository.deleteById(id);
   }
 }

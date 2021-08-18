@@ -4,11 +4,11 @@ import {TodoList, TodoListWithRelations} from './todo-list.model';
 @model()
 export class Todo extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     generated: false,
   })
-  id?: number;
+  id?: string;
 
   @property({
     type: 'string',
@@ -27,7 +27,7 @@ export class Todo extends Entity {
   isComplete?: boolean;
 
   @belongsTo(() => TodoList)
-  todoListId: number;
+  todoListId: string;
 
   constructor(data?: Partial<Todo>) {
     super(data);

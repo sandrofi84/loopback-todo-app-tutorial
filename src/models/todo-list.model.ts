@@ -5,11 +5,11 @@ import {Todo, TodoWithRelations} from './todo.model';
 @model()
 export class TodoList extends Entity {
   @property({
-    type: 'number',
+    type: 'string',
     id: true,
     generated: false,
   })
-  id?: number;
+  id?: string;
 
   @property({
     type: 'string',
