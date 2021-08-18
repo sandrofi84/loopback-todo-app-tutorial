@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {intercept} from '@loopback/core';
 import {
   Count,
@@ -16,6 +17,7 @@ import {ValidateTodoListItemInterceptor} from '../interceptors';
 import {TodoList} from '../models';
 import {TodoListRepository} from '../repositories';
 
+@authenticate('jwt')
 @intercept(ValidateTodoListItemInterceptor.BINDING_KEY)
 export class TodoListController {
   constructor(
