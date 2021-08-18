@@ -7,7 +7,7 @@ import {givenTodoList, givenTodoListData} from '../helpers/todo-list.helpers';
 import {setupApplication} from './test-helper';
 
 
-describe.only('TodoListController (acceptance)', () => {
+describe('TodoListController (acceptance)', () => {
   const datasource = new DbDataSource();
 
   let app: TodoListApplication;
@@ -16,7 +16,7 @@ describe.only('TodoListController (acceptance)', () => {
   // The database is cleared before each test
   beforeEach('givenEmptyDatabase', async () => {
     await givenEmptyDB(datasource);
-  })
+  });
 
   before('setup application', async () => {
     ({ app, client } = await setupApplication());
@@ -46,6 +46,22 @@ describe.only('TodoListController (acceptance)', () => {
       // then return an array of TodoLists
       expect(response.body).Array();
       expect(response.body[0]).to.have.properties(props)
+    });
+  });
+
+  describe('GET /todo-lists/{id}', () => {
+    it('returns a todo-list with the corresponding id', async () => {
+      // given a TodoList in the DB with property id
+      const todoList = await givenTodoList(datasource, {title: "test todo-list"});
+
+
+      // when making a GET request to /todo-lists/{id}
+      const response = await client
+        .get(`/todo-lists/${todoList.id}`)
+        .expect(200);
+
+      // then return the TodoList with the corresponding id
+      expect(response.body.id === todoList.id?.toString()).eql(true);
     });
   });
 

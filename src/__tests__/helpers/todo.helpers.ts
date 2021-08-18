@@ -8,7 +8,7 @@ export function givenTodoData(data?: Partial<Todo>): Partial<Todo> {
       title: "dummy",
       desc: "this is just a test todo",
       isComplete: false,
-      todoListId: 1
+      todoListId: "1"
     },
     data
   );
