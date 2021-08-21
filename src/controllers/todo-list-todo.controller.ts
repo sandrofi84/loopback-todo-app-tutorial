@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -20,6 +21,7 @@ import {
 } from '../models';
 import {TodoListRepository} from '../repositories';
 
+@authenticate('jwt')
 export class TodoListTodoController {
   constructor(
     @repository(TodoListRepository) protected todoListRepository: TodoListRepository,
