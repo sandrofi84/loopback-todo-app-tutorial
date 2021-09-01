@@ -1,5 +1,6 @@
 import {authenticate} from '@loopback/authentication';
-import {intercept} from '@loopback/core';
+import {User} from '@loopback/authentication-jwt';
+import {inject, intercept} from '@loopback/core';
 import {
   Count,
   CountSchema,
@@ -13,6 +14,7 @@ import {
   getModelSchemaRef, param, patch, post, put, requestBody,
   response
 } from '@loopback/rest';
+import {SecurityBindings} from '@loopback/security';
 import {ValidateTodoListItemInterceptor} from '../interceptors';
 import {TodoList} from '../models';
 import {TodoListRepository} from '../repositories';
@@ -31,19 +33,21 @@ export class TodoListController {
     content: {'application/json': {schema: getModelSchemaRef(TodoList)}},
   })
   async create(
+    @inject(SecurityBindings.USER)
+    user: User,
     @requestBody({
       content: {
         'application/json': {
           schema: getModelSchemaRef(TodoList, {
             title: 'NewTodoList',
-            exclude: ['id'],
+            exclude: ['id', 'userId'],
           }),
         },
       },
     })
     todoList: Omit<TodoList, 'id'>,
   ): Promise<TodoList> {
-    return this.todoListRepository.create(todoList);
+    return this.todoListRepository.create({...todoList, userId: user.id});
   }
 
   @get('/todo-lists/count')

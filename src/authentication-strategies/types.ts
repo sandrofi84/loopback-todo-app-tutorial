@@ -42,6 +42,7 @@ export const verifyFunctionFactory = function (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     done: (error: any, user?: any, info?: any) => void,
   ) {
+    console.log(accessToken);
 
     if (!profile.emails || !profile.emails.length) {
       throw new Error('email-id is required in returned profile to login');

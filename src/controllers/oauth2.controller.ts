@@ -51,6 +51,7 @@ export class Oauth2Controller {
   ) {
     response.statusCode = status || 302;
     response.setHeader('Location', redirectUrl);
+    console.log(redirectUrl);
     response.end();
     return response;
   }
