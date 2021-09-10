@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,23 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Picture} from '../models';
 import {PictureRepository} from '../repositories';
 
+@authenticate('jwt')
 export class PictureController {
   constructor(
     @repository(PictureRepository)
-    public pictureRepository : PictureRepository,
+    public pictureRepository: PictureRepository,
   ) {}
 
   @post('/pictures', {
@@ -57,9 +59,7 @@ export class PictureController {
       },
     },
   })
-  async count(
-    @param.where(Picture) where?: Where<Picture>,
-  ): Promise<Count> {
+  async count(@param.where(Picture) where?: Where<Picture>): Promise<Count> {
     return this.pictureRepository.count(where);
   }
 
@@ -120,7 +120,8 @@ export class PictureController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Picture, {exclude: 'where'}) filter?: FilterExcludingWhere<Picture>
+    @param.filter(Picture, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Picture>,
   ): Promise<Picture> {
     return this.pictureRepository.findById(id, filter);
   }

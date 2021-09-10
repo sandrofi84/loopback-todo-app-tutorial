@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,22 +8,23 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
 } from '@loopback/rest';
 import {Profile} from '../models';
 import {ProfileRepository} from '../repositories';
 
+@authenticate('jwt')
 export class ProfileController {
   constructor(
     @repository(ProfileRepository)
-    public profileRepository : ProfileRepository,
+    public profileRepository: ProfileRepository,
   ) {}
 
   @post('/profiles', {
@@ -57,9 +59,7 @@ export class ProfileController {
       },
     },
   })
-  async count(
-    @param.where(Profile) where?: Where<Profile>,
-  ): Promise<Count> {
+  async count(@param.where(Profile) where?: Where<Profile>): Promise<Count> {
     return this.profileRepository.count(where);
   }
 
@@ -120,7 +120,8 @@ export class ProfileController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Profile, {exclude: 'where'}) filter?: FilterExcludingWhere<Profile>
+    @param.filter(Profile, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Profile>,
   ): Promise<Profile> {
     return this.profileRepository.findById(id, filter);
   }
