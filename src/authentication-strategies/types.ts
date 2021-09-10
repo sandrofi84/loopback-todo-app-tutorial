@@ -78,7 +78,6 @@ export const verifyFunctionFactory = function (
               profilePicture: profile?.photos?.length
                 ? profile.photos[0].value
                 : '',
-              pictures: [],
               userId: user.id,
             });
           });

@@ -125,7 +125,7 @@ export class UserController {
     const whereBuilder = new WhereBuilder<Profile>();
     const where = whereBuilder.eq('userId', currentUserProfile.id).build();
     const filterBuilder = new FilterBuilder<Profile>();
-    const filter = filterBuilder.where(where).build();
+    const filter = filterBuilder.where(where).include('pictures').build();
     const profile = await this.profileRepository.findOne(filter);
 
     return profile;
