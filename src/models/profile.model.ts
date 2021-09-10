@@ -1,5 +1,5 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
-import {Picture, PictureWithRelations} from '.';
+import {Picture, PictureWithRelations} from './picture.model';
 
 @model()
 export class Profile extends Entity {
@@ -28,14 +28,14 @@ export class Profile extends Entity {
   })
   profilePicture: string;
 
-  @hasMany(() => Picture)
-  pictures: Picture[];
-
   @property({
     type: 'string',
     required: true,
   })
   userId: string;
+
+  @hasMany(() => Picture)
+  pictures: Picture[];
 
   constructor(data?: Partial<Profile>) {
     super(data);
@@ -44,7 +44,7 @@ export class Profile extends Entity {
 
 export interface ProfileRelations {
   // describe navigational properties here
-  pictures?: PictureWithRelations;
+  pictures?: PictureWithRelations[];
 }
 
 export type ProfileWithRelations = Profile & ProfileRelations;

@@ -1,5 +1,5 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {Profile, ProfileWithRelations} from '.';
+import {Profile, ProfileWithRelations} from './profile.model';
 
 @model()
 export class Picture extends Entity {
