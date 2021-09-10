@@ -27,12 +27,10 @@ export class Profile extends Entity {
   })
   profilePicture: string;
 
-  @property({
-    type: 'array',
-    itemType: 'object',
+  @property.array({
     required: true,
   })
-  photos: object[];
+  photos: object[] | [];
 
   @property({
     type: 'string',

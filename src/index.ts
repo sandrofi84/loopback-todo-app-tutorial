@@ -4,10 +4,11 @@ export * from './application';
 
 require('dotenv').config();
 
-const oauth2Providers = process.env.OAUTH_PROVIDERS_LOCATION ? require(process.env.OAUTH_PROVIDERS_LOCATION) : null;
+const oauth2Providers = process.env.OAUTH_PROVIDERS_LOCATION
+  ? require(process.env.OAUTH_PROVIDERS_LOCATION)
+  : null;
 
 export async function main(options: ApplicationConfig = {}) {
-
   const app = new TodoListApplication(options);
   app.bind('facebookOAuth2Options').to(options.facebookOptions);
   app.bind('customOAuth2Options').to(options.oauth2Options);

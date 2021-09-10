@@ -8,6 +8,7 @@ import {BindingScope, inject, injectable, Provider} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {Strategy as FacebookStrategy, StrategyOption} from 'passport-facebook';
 import {verifyFunctionFactory} from '../authentication-strategies/types';
+import {ProfileRepository} from '../repositories';
 
 @injectable.provider({scope: BindingScope.SINGLETON})
 export class FacebookOauth implements Provider<FacebookStrategy> {
@@ -18,10 +19,12 @@ export class FacebookOauth implements Provider<FacebookStrategy> {
     public facebookOptions: StrategyOption,
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @repository(ProfileRepository)
+    public profileRepository: ProfileRepository,
   ) {
     this.strategy = new FacebookStrategy(
       this.facebookOptions,
-      verifyFunctionFactory(this.userRepository),
+      verifyFunctionFactory(this.userRepository, this.profileRepository),
     );
   }
 
