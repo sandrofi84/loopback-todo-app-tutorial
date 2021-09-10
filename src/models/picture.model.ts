@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {belongsTo, Entity, model, property} from '@loopback/repository';
+import {Profile, ProfileWithRelations} from '.';
 
 @model()
 export class Picture extends Entity {
@@ -21,12 +22,8 @@ export class Picture extends Entity {
   })
   provider: string;
 
-  @property({
-    type: 'string',
-    required: true,
-  })
+  @belongsTo(() => Profile)
   profileId: string;
-
 
   constructor(data?: Partial<Picture>) {
     super(data);
@@ -35,6 +32,7 @@ export class Picture extends Entity {
 
 export interface PictureRelations {
   // describe navigational properties here
+  profile?: ProfileWithRelations;
 }
 
 export type PictureWithRelations = Picture & PictureRelations;
