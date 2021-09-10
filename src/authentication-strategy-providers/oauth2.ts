@@ -14,6 +14,7 @@ import {
   ProfileFunction,
   verifyFunctionFactory
 } from '../authentication-strategies/types';
+import {ProfileRepository} from '../repositories';
 
 @injectable.provider({scope: BindingScope.SINGLETON})
 export class CustomOauth2 implements Provider<OAuth2Strategy> {
@@ -26,13 +27,15 @@ export class CustomOauth2 implements Provider<OAuth2Strategy> {
     public profileFn: ProfileFunction,
     @repository(UserRepository)
     public userRepository: UserRepository,
+    @repository(ProfileRepository)
+    public profileRepository: ProfileRepository,
   ) {
     if (profileFn) {
       OAuth2Strategy.prototype.userProfile = profileFn;
     }
     this.strategy = new OAuth2Strategy(
       this.oauth2Options,
-      verifyFunctionFactory(this.userRepository),
+      verifyFunctionFactory(this.userRepository, this.profileRepository),
     );
   }
 

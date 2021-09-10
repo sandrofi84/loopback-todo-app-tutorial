@@ -3,19 +3,12 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {
-  Application,
-  Constructor,
-  createBindingFromClass
-} from '@loopback/core';
+import {Application, Constructor, createBindingFromClass} from '@loopback/core';
 import {
   FaceBookOauth2Authentication,
-  Oauth2AuthStrategy
+  Oauth2AuthStrategy,
 } from './authentication-strategies';
-import {
-  CustomOauth2,
-  FacebookOauth
-} from './authentication-strategy-providers';
+import {CustomOauth2, FacebookOauth} from './authentication-strategy-providers';
 
 export function setupBindings(app: Application) {
   // passport strategies

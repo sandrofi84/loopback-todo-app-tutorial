@@ -3,7 +3,7 @@
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
 
-import {authenticate, AuthenticationBindings, TokenService} from '@loopback/authentication';
+import {authenticate, TokenService} from '@loopback/authentication';
 import {
   MyUserService,
   TokenServiceBindings,
@@ -31,29 +31,6 @@ export class Oauth2Controller {
     @inject(UserServiceBindings.USER_SERVICE)
     public userService: MyUserService,
   ) {}
-
-  @authenticate('oauth2')
-  @get('/auth/thirdparty/{provider}')
-  /**
-   * This method uses the @authenticate decorator to plugin passport strategies independently
-   *
-   * Endpoint: '/auth/thirdparty/{provider}'
-   *          an endpoint for api clients to login via a third party app, redirects to third party app
-   */
-  loginToThirdParty(
-    @param.path.string('provider') provider: string,
-    @inject(AuthenticationBindings.AUTHENTICATION_REDIRECT_URL)
-    redirectUrl: string,
-    @inject(AuthenticationBindings.AUTHENTICATION_REDIRECT_STATUS)
-    status: number,
-    @inject(RestBindings.Http.RESPONSE)
-    response: Response,
-  ) {
-    response.statusCode = status || 302;
-    response.setHeader('Location', redirectUrl);
-    response.end();
-    return response;
-  }
 
   @authenticate('oauth2')
   @get('/auth/thirdparty/{provider}/callback')

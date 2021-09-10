@@ -6,20 +6,23 @@ import {
   TokenServiceBindings,
   User,
   UserRepository,
-  UserServiceBindings
+  UserServiceBindings,
 } from '@loopback/authentication-jwt';
 import {inject} from '@loopback/core';
+import {FilterBuilder, WhereBuilder} from '@loopback/filter';
 import {model, property, repository} from '@loopback/repository';
 import {
   get,
   getModelSchemaRef,
   post,
   requestBody,
-  SchemaObject
+  SchemaObject,
 } from '@loopback/rest';
-import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
+import {SecurityBindings, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import _ from 'lodash';
+import {Profile, ProfileRelations} from '../models';
+import {ProfileRepository} from '../repositories';
 
 @model()
 export class NewUserRequest extends User {
@@ -63,6 +66,8 @@ export class UserController {
     public user: UserProfile,
     @repository(UserRepository)
     protected userRepository: UserRepository,
+    @repository(ProfileRepository)
+    protected profileRepository: ProfileRepository,
   ) {}
 
   @post('/users/login', {
@@ -89,10 +94,10 @@ export class UserController {
   ): Promise<{token: string}> {
     // ensure the user exists, and the password is correct
     const user = await this.userService.verifyCredentials(credentials);
-    console.log("USER \n", user);
+    console.log('USER \n', user);
     // convert a User object into a UserProfile object (reduced set of properties)
     const userProfile = this.userService.convertToUserProfile(user);
-    console.log("USER-PROFILE \n", userProfile);
+    console.log('USER-PROFILE \n', userProfile);
     // create a JSON Web Token based on the user profile
     const token = await this.jwtService.generateToken(userProfile);
     return {token};
@@ -116,8 +121,14 @@ export class UserController {
   async whoAmI(
     @inject(SecurityBindings.USER)
     currentUserProfile: UserProfile,
-  ): Promise<string> {
-    return currentUserProfile[securityId];
+  ): Promise<(Profile & ProfileRelations) | null> {
+    const whereBuilder = new WhereBuilder<Profile>();
+    const where = whereBuilder.eq('userId', currentUserProfile.id).build();
+    const filterBuilder = new FilterBuilder<Profile>();
+    const filter = filterBuilder.where(where).build();
+    const profile = await this.profileRepository.findOne(filter);
+
+    return profile;
   }
 
   @post('/signup', {
